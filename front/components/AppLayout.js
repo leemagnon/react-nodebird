@@ -48,7 +48,11 @@ const AppLayout = ({ children }) => {
           {children}
         </Col>
         <Col xs={24} md={6}>
-          <a href="https://rat2.tistory.com/" target="_blank">
+          <a
+            href="https://rat2.tistory.com/"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
             Made by leemagnon
           </a>
         </Col>
