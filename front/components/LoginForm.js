@@ -3,6 +3,7 @@ import { Form, Input, Button } from 'antd';
 import Link from 'next/link';
 // styled-components 는 페이지에서 어떤 컴포넌트가 렌더링 됐는지 추적해서 style을 주입한다.
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const ButtonWrapper = styled.div`
   margin-top: 10px;
@@ -61,6 +62,10 @@ const LoginForm = ({ setIsLoggedIn }) => {
       </ButtonWrapper>
     </FormWrapper>
   );
+};
+
+LoginForm.propTypes = {
+  setIsLoggedIn: PropTypes.func.isRequired,
 };
 
 export default LoginForm;
