@@ -6,6 +6,8 @@ import PropTypes from 'prop-types';
 import Head from 'next/head'; // head를 수정할 수 있게 Head 컴포넌트 제공
 import 'antd/dist/antd.css'; // 웹팩이 알아서 style 태그로 변경해서 처리해줌.
 
+import wrapper from '../store/configureStore';
+
 const NodeBird = ({ Component }) => {
   return (
     <>
@@ -41,4 +43,4 @@ NodeBird.propTypes = {
   Component: PropTypes.elementType.isRequired, // <Component />처럼 JSX로 쓸 수 있는 것들을 elementType이라고 한다.
 };
 
-export default NodeBird;
+export default wrapper.withRedux(NodeBird);

@@ -3,6 +3,11 @@ import Head from 'next/head';
 import AppLayout from '../components/AppLayout';
 import useInput from '../hooks/useInput';
 import { Form, Input, Checkbox, Button } from 'antd';
+import styled from 'styled-components';
+
+const ErrorMessage = styled.div`
+  color: red;
+`;
 
 const Signup = () => {
   const [passwordCheck, setPasswordCheck] = useState('');
@@ -17,11 +22,12 @@ const Signup = () => {
   const onSubmit = useCallback(() => {
     // 내부적으로 e.preventDefault()가 되기 때문에 따로 해줄 필요 x
     if (password !== passwordCheck) {
-      setPasswordError(true);
+      return setPasswordError(true);
     }
     if (!term) {
       return setTermError(true);
     }
+    console.log(id, nickname, password);
   }, [password, passwordCheck, term]);
 
   const onChangePasswordCheck = useCallback(
@@ -79,16 +85,14 @@ const Signup = () => {
             onChange={onChangePasswordCheck}
           />
           {passwordError && (
-            <div style={{ color: 'red' }}>비밀번호가 일치하지 않습니다.</div>
+            <ErrorMessage>비밀번호가 일치하지 않습니다.</ErrorMessage>
           )}
         </div>
         <div>
           <Checkbox name="user-term" checked={term} onChange={onChangeTerm}>
             제로초 말을 잘 들을 것을 동의합니다.
           </Checkbox>
-          {termError && (
-            <div style={{ color: 'red' }}>약관에 동의하셔야합니다.</div>
-          )}
+          {termError && <ErrorMessage>약관에 동의하셔야합니다.</ErrorMessage>}
         </div>
         <div style={{ marginTop: 10 }}>
           <Button type="primary" htmlType="submit">
