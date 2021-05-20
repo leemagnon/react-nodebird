@@ -1,10 +1,10 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Form, Input, Button } from 'antd';
 import Link from 'next/link';
 // styled-components 는 페이지에서 어떤 컴포넌트가 렌더링 됐는지 추적해서 style을 주입한다.
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
-import { loginAction } from '../reducers/user';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginRequestAction } from '../reducers/user';
 
 const ButtonWrapper = styled.div`
   margin-top: 10px;
@@ -16,6 +16,7 @@ const FormWrapper = styled(Form)`
 
 const LoginForm = () => {
   const dispatch = useDispatch(); // store.dispatch와 마찬가지
+  const { isLoggingIn } = useSelector(state => state.user);
   const [Id, setId] = useState('');
   const [Password, setPassword] = useState('');
 
@@ -30,7 +31,7 @@ const LoginForm = () => {
 
   const onSubmitForm = useCallback(() => {
     console.log(Id, Password);
-    dispatch(loginAction({ Id, Password }));
+    dispatch(loginRequestAction({ Id, Password }));
   }, [Id, Password]);
 
   // Virtual DOM
@@ -53,7 +54,7 @@ const LoginForm = () => {
         />
       </div>
       <ButtonWrapper>
-        <Button type="primary" htmlType="submit" loading={false}>
+        <Button type="primary" htmlType="submit" loading={isLoggingIn}>
           로그인
         </Button>
         <Link href="/signup">
