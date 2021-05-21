@@ -1,10 +1,11 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { Form, Input, Button } from 'antd';
 import Link from 'next/link';
 // styled-components 는 페이지에서 어떤 컴포넌트가 렌더링 됐는지 추적해서 style을 주입한다.
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginRequestAction } from '../reducers/user';
+import useInput from '../hooks/useInput';
 
 const ButtonWrapper = styled.div`
   margin-top: 10px;
@@ -16,31 +17,28 @@ const FormWrapper = styled(Form)`
 
 const LoginForm = () => {
   const dispatch = useDispatch(); // store.dispatch와 마찬가지
-  const { isLoggingIn } = useSelector(state => state.user);
-  const [Id, setId] = useState('');
-  const [Password, setPassword] = useState('');
-
-  const onChangeId = useCallback(e => {
-    setId(e.target.value);
-  }, []);
-
-  // useCallback -> 함수 캐싱
-  const onChangePassword = useCallback(e => {
-    setPassword(e.target.value);
-  }, []);
+  const { logInLoading } = useSelector(state => state.user);
+  const [email, onChangeEmail] = useInput('');
+  const [password, onChangePassword] = useInput('');
 
   const onSubmitForm = useCallback(() => {
-    console.log(Id, Password);
-    dispatch(loginRequestAction({ Id, Password }));
-  }, [Id, Password]);
+    console.log(email, password);
+    dispatch(loginRequestAction({ email, password }));
+  }, [email, password]);
 
   // Virtual DOM
   return (
     <FormWrapper onFinish={onSubmitForm}>
       <div>
-        <label htmlFor="user-id">아이디</label>
+        <label htmlFor="user-email">이메일</label>
         <br />
-        <Input name="user-id" value={Id} onChange={onChangeId} required />
+        <Input
+          name="user-email"
+          type="email"
+          value={email}
+          onChange={onChangeEmail}
+          required
+        />
       </div>
       <div>
         <label htmlFor="user-password">비밀번호</label>
@@ -48,13 +46,13 @@ const LoginForm = () => {
         <Input
           name="user-password"
           type="password"
-          value={Password}
+          value={password}
           onChange={onChangePassword}
           required
         />
       </div>
       <ButtonWrapper>
-        <Button type="primary" htmlType="submit" loading={isLoggingIn}>
+        <Button type="primary" htmlType="submit" loading={logInLoading}>
           로그인
         </Button>
         <Link href="/signup">
