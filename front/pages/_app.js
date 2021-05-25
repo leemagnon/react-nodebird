@@ -8,36 +8,34 @@ import 'antd/dist/antd.css'; // 웹팩이 알아서 style 태그로 변경해서
 import withReduxSaga from 'next-redux-saga';
 import wrapper from '../store/configureStore';
 
-const NodeBird = ({ Component }) => {
-  return (
-    <>
-      <Head>
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="/favicon-32x32.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="/favicon-16x16.png"
-        />
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="/apple-touch-icon.png"
-        />
-        <link rel="manifest" href="/site.webmanifest" />
-        <meta name="theme-color" content="#ffffff" />
-        <meta charSet="utf-8" />
-        <title>NodeBird</title>
-      </Head>
-      <Component />
-    </>
-  );
-};
+const NodeBird = ({ Component }) => (
+  <>
+    <Head>
+      <link
+        rel="icon"
+        type="image/png"
+        sizes="32x32"
+        href="/favicon-32x32.png"
+      />
+      <link
+        rel="icon"
+        type="image/png"
+        sizes="16x16"
+        href="/favicon-16x16.png"
+      />
+      <link
+        rel="apple-touch-icon"
+        sizes="180x180"
+        href="/apple-touch-icon.png"
+      />
+      <link rel="manifest" href="/site.webmanifest" />
+      <meta name="theme-color" content="#ffffff" />
+      <meta charSet="utf-8" />
+      <title>NodeBird</title>
+    </Head>
+    <Component />
+  </>
+);
 
 NodeBird.propTypes = {
   Component: PropTypes.elementType.isRequired, // <Component />처럼 JSX로 쓸 수 있는 것들을 elementType이라고 한다.

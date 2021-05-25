@@ -8,7 +8,6 @@ const PostForm = () => {
   const { imagePaths, addPostDone } = useSelector(state => state.post);
   const dispatch = useDispatch();
   const [text, onChangeText, setText] = useInput('');
-
   const imageInput = useRef();
 
   useEffect(() => {
@@ -19,7 +18,7 @@ const PostForm = () => {
 
   const onSubmit = useCallback(() => {
     dispatch(addPost(text));
-  }, []);
+  }, [text]);
   const onClickImageUpload = useCallback(() => {
     imageInput.current.click();
   }, [imageInput.current]);
