@@ -1,12 +1,50 @@
 // import React from 'react'; <- Next는 이 구문이 필요 없다.
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import AppLayout from '../components/AppLayout';
 import PostForm from '../components/PostForm';
 import PostCard from '../components/PostCard';
+import { LOAD_POSTS_REQUEST } from '../reducers/post';
 
 const Home = () => {
+  const dispatch = useDispatch();
   const { me } = useSelector(state => state.user);
-  const { mainPosts } = useSelector(state => state.post);
+  const { mainPosts, hasMorePosts, loadPostsLoading } = useSelector(
+    state => state.post
+  );
+
+  useEffect(() => {
+    dispatch({
+      type: LOAD_POSTS_REQUEST,
+    });
+  }, []);
+
+  useEffect(() => {
+    function onScroll() {
+      // scrollY: 얼마나 내렸는지, clientHeight: 화면 보이는 길이, scrollHeight: 총 길이. scrollY + clientHeight = scrollHeight
+      console.log(
+        window.scrollY,
+        document.documentElement.clientHeight,
+        document.documentElement.scrollHeight
+      );
+      if (
+        window.scrollY + document.documentElement.clientHeight >
+        document.documentElement.scrollHeight - 300
+      ) {
+        // 스크롤을 끝까지 내리면
+        if (hasMorePosts && !loadPostsLoading) {
+          dispatch({
+            type: LOAD_POSTS_REQUEST,
+          });
+        }
+      }
+    }
+    window.addEventListener('scroll', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+    };
+  }, [hasMorePosts]);
+
   return (
     <AppLayout>
       {me && <PostForm />}

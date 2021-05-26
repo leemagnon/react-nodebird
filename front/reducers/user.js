@@ -1,4 +1,5 @@
 import produce from 'immer';
+import faker from 'faker';
 
 export const initialState = {
   logInLoading: false, // 로그인 시도중
